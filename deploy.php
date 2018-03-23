@@ -1,46 +1,35 @@
 <?php
 namespace Deployer;
 
-// Configuration
+require 'recipe/symfony.php';
 
-set('ssh_type', 'native');
-set('ssh_multiplexing', false);
+// Project name
+set('application', 'my_project');
 
-set('repository', 'git@github.com:shynixxx/my-project.git');
+// Project repository
+set('repository', 'https://github.com/shynixxx/my-project.git');
 
-add('writable_dirs', ['public']);
+// [Optional] Allocate tty for git clone. Default value is false.
+set('git_tty', true);
 
-set('default_stage', 'dev');
+// Shared files/dirs between deploys
+add('shared_files', []);
+add('shared_dirs', []);
 
-// Servers
+// Writable dirs by web server
+add('writable_dirs', []);
 
-server('dev', 'dev2.ylly.fr')
+// Hosts
+host('dev', 'dev2.ylly.fr')
     ->user('ylly')
-    ->identityFile()
     ->set('deploy_path', '/var/www/p/circle_ci_test/');
 
-task('deploy', [
-    'ask_git_version',
-    'deploy:prepare',
-    'deploy:lock',
-    'deploy:release',
-    'deploy:update_code',
-    'deploy:vendors',
-    'deploy:shared',
-    'deploy:symlink',
-    'deploy:unlock',
-    'cleanup',
-    'success'
-]);
+task('build', function () {
+    run('cd {{release_path}} && build');
+});
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
 
-task('ask_git_version', function() {
-    $tags = explode("\n", runLocally('git tag'));
-    if (count($tags) > 0)
-        set('branch', $tags[count($tags) - 1]);
-    $branch = ask('Version to deploy', get('branch'));
-    set('branch', $branch);
-});
-
+// Migrate database before symlink new release.
+before('deploy:symlink', 'database:migrate');
