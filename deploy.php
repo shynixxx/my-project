@@ -1,7 +1,6 @@
 <?php
 namespace Deployer;
 
-require 'recipe/common.php';
 require 'recipe/symfony.php';
 
 
