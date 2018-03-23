@@ -34,10 +34,5 @@ jobs:
           command: vendor/bin/phpunit
       - run:
           name: Deployment
-          command: deployment
-
-    deployment:
-      dev:
-        branch: master
-        commands:
-          - deployer.phar deploy dev
+          branch: master
+          command: php deployer.phar deploy
