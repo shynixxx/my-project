@@ -32,3 +32,9 @@ jobs:
       - run:
           name: Run Unit tests
           command: vendor/bin/phpunit
+
+  deployment:
+    dev:
+      branch: master
+      commands:
+        - bundle exec deployer.phar deploy dev
