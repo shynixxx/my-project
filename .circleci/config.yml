@@ -35,4 +35,4 @@ jobs:
       - run:
           name: Deployment
           branch: master
-          command: php deployer.phar deploy
+          command: php7.1 deployer.phar deploy
