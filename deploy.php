@@ -24,13 +24,9 @@ add('writable_dirs', []);
 
 
 // Hosts
-
-//host('project.com')
-//    ->set('deploy_path', '~/{{application}}');
-//
-
 host('dev2.ylly.fr')
     ->user('ylly')
+    ->identityFile('~/.ssh/id_rsa')
     ->set('deploy_path', '/var/www/p/circle_ci_test');
 
 task('build', function () {
