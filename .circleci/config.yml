@@ -39,9 +39,8 @@ jobs:
           name: Display Deployer information
           command: |
             php deployer.phar --version
-#      - add_ssh_keys:
-#          fingerprints:
-#            - "5c:b3:a6:a7:4c:a5:9f:40:49:c3:ae:97:23:ca:d6:1c"
-      - run:
-          name: Deployment
+      - add_ssh_keys:
+          fingerprints:
+            - "f9:60:0c:14:e1:dd:62:0f:9a:7d:a9:de:d3:06:d3:ea"
+      - deploy:
           command: php deployer.phar deploy -vvv
