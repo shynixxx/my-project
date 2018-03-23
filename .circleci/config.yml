@@ -41,4 +41,4 @@ jobs:
             php deployer.phar --version
       - run:
           name: Deployment
-          command: php deployer.phar deploy
+          command: php deployer.phar deploy -vvv
