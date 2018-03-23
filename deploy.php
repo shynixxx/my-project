@@ -3,14 +3,17 @@ namespace Deployer;
 
 require 'recipe/symfony.php';
 
+
 // Project name
 set('application', 'my_project');
 
 // Project repository
-set('repository', 'https://github.com/shynixxx/my-project.git');
+set('ssh_type', 'native');
+set('ssh_multiplexing', false);
+set('repository', 'git@github.com:shynixxx/my-project.git');
 
 // [Optional] Allocate tty for git clone. Default value is false.
-set('git_tty', true);
+set('git_tty', false);
 
 // Shared files/dirs between deploys
 add('shared_files', []);
@@ -19,10 +22,16 @@ add('shared_dirs', []);
 // Writable dirs by web server
 add('writable_dirs', []);
 
+
 // Hosts
-host('dev', 'dev2.ylly.fr')
+
+//host('project.com')
+//    ->set('deploy_path', '~/{{application}}');
+//
+
+host('dev2.ylly.fr')
     ->user('ylly')
-    ->set('deploy_path', '/var/www/p/circle_ci_test/');
+    ->set('deploy_path', '/var/www/p/circle_ci_test');
 
 task('build', function () {
     run('cd {{release_path}} && build');
@@ -32,4 +41,5 @@ task('build', function () {
 after('deploy:failed', 'deploy:unlock');
 
 // Migrate database before symlink new release.
+
 before('deploy:symlink', 'database:migrate');
